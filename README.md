@@ -1,6 +1,7 @@
 # Umruhren
 
-TODO: Write a gem description
+Command line application.
+Renames files in specified dir with selected extension with random names.
 
 ## Installation
 
@@ -18,7 +19,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+dir is optional option, default is current directory.
+
+```
+umruhren --ext mp3 --dir /Volumes/Untitled
+```
 
 ## Contributing
 
