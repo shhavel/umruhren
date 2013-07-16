@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Umruhren::VERSION
   spec.authors       = ["Alexander Avoyants"]
   spec.email         = ["shhavel@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Renames files in specified dir with selected extension with random namesn}
+  spec.summary       = %q{Command line application. Renames files in specified dir with selected extension with random names}
   spec.homepage      = ""
   spec.license       = "MIT"
 
