@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'yaml'
+
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
+require 'umruhren'
+
+options = {
+  dir: Dir.pwd
+}
+
+CONFIG_FILE = File.join(ENV['HOME'], '.umruhren.rc.yaml')
+
+if File.exists? CONFIG_FILE
+  config_options = YAML.load_file(CONFIG_FILE)
+  options.merge!(config_options)
+else
+  begin
+    File.open(CONFIG_FILE, 'w') { |file| YAML::dump(options, file) }
+    STDERR.puts "Initialized configuration file in #{CONFIG_FILE}"
+  rescue Errno::EACCES => ex
+    #STDERR.puts "Cannot create config file. #{ex.message}"
+  end
+end
+
+option_parser = OptionParser.new do |opts|
+  executable_name = File.basename($PROGRAM_NAME)
+  opts.banner = <<EOF
+Creates random names for files with chosen extension in dir.
+
+Usage: #{executable_name} [options]
+
+EOF
+
+  opts.on("-e EXTENSION", "--ext", "Files extension") do |ext|
+    options[:ext] = ext
+  end
+
+  opts.on("-d DIRECTORY", "--dir", "Directory") do |dir|
+    options[:dir] = dir
+  end
+end
+
+begin
+  option_parser.parse!
+  if options[:ext].nil?
+    puts "Missing option --ext"
+    exit 1
+  end
+rescue OptionParser::InvalidArgument => ex
+  STDERR.puts ex.message
+  STDERR.puts option_parser
+  exit 1
+end
+
+files = Umruhren.rename_files(options[:dir], options[:ext])
+puts "Renamed #{files.size} files."
